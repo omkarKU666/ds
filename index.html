@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Copy My C Programs</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+            text-align: center;
+        }
+        button {
+            width: 350px;
+            padding: 12px;
+            margin: 6px;
+            font-size: 15px;
+            border: none;
+            border-radius: 6px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Click Button to Copy Program</h2>
+
+    <button onclick="copy(bst)">BST Program</button>
+    <button onclick="copy(hash)">Hash Table Program</button>
+    <button onclick="copy(dllFront)">DLL Insert/Delete Front</button>
+    <button onclick="copy(dllEnd)">DLL Insert/Delete End</button>
+    <button onclick="copy(sllFront)">SLL Insert/Delete Front</button>
+    <button onclick="copy(sllEnd)">SLL Insert/Delete End</button>
+</div>
+
+<script>
+function copy(text){
+    navigator.clipboard.writeText(text);
+    alert("Program Copied Successfully!");
+}
+
+const hash = `#include <stdio.h> 
+ 
+#define SIZE 10   // Hash table size 
+ 
+int hashTable[SIZE]; 
+ 
+// Hash function using division method 
+int hashFunction(int key) 
+{ 
+    return key % SIZE; 
+} 
+ 
+// Insert key into hash table 
+void insert(int key) 
+{ 
+    int index = hashFunction(key); 
+    if (hashTable[index] == -1) 
+        hashTable[index] = key; 
+    else 
+        printf("Collision occurred at index %d\n", index); 
+} 
+ 
+// Display hash table 
+void display() 
+{ 
+    int i; 
+    printf("\n Hash Table:\n"); 
+    for (i = 0; i < SIZE; i++) 
+    { 
+        if (hashTable[i] != -1) 
+            printf("HashTable[%d] : %d\n", i, hashTable[i]); 
+        else 
+            printf("HashTable[%d] : Empty\n", i); 
+    } 
+} 
+ 
+int main() 
+{ 
+    int i, key; 
+ 
+    // Initialize hash table 
+    for (i = 0; i < SIZE; i++) 
+hashTable[i] = -1; 
+// Insert elements 
+insert(12); 
+insert(23); 
+insert(43); 
+insert(13); 
+insert(27); 
+insert(38); 
+// Display hash table 
+display(); 
+return 0; 
+}`;
+
+const bst = `#include <stdlib.h>
+#include <stdio.h>
+
+struct node {
+    struct node *leftchild;
+    int data;
+    struct node *rightchild;
+};
+typedef struct node *treePointer;
+treePointer root = NULL;
+
+treePointer createnode(int value);
+treePointer insertBST(treePointer root, int value);
+void inorder(treePointer root);
+void preorder(treePointer root);
+void postorder(treePointer root);
+
+int main() {
+    int values[] = {40,20,60,10,30,50,70,45,52,55};
+    int i, ch, n = 10;
+    while (1) {
+        printf("1.Construct BST\n2.Traversals\n3.Exit\nEnter Your Choice:");
+        scanf("%d", &ch);
+        switch (ch) {
+        case 1:
+            for (i = 0; i < n; i++) {
+                root = insertBST(root, values[i]);
+            }
+            printf("Binary Search Tree Constructed.\n");
+            break;
+        case 2:
+            printf("\nInorder: ");
+            inorder(root);
+            printf("\nPreorder: ");
+            preorder(root);
+            printf("\nPostorder: ");
+            postorder(root);
+            printf("\n");
+            break;
+        case 3:
+            exit(0);
+        }
+    }
+    return 0;
+}
+
+treePointer createnode(int value) {
+    treePointer temp = malloc(sizeof(struct node));
+    temp->data = value;
+    temp->leftchild = NULL;
+    temp->rightchild = NULL;
+    return temp;
+}
+
+treePointer insertBST(treePointer root, int value) {
+    if (root == NULL) {
+        root = createnode(value);
+    } else if (value < root->data) {
+        root->leftchild = insertBST(root->leftchild, value);
+    } else {
+        root->rightchild = insertBST(root->rightchild, value);
+    }
+    return root;
+}
+
+void inorder(treePointer root) {
+    if (root) {
+        inorder(root->leftchild);
+        printf("%d ", root->data);
+        inorder(root->rightchild);
+    }
+}
+
+void preorder(treePointer root) {
+    if (root) {
+        printf("%d ", root->data);
+        preorder(root->leftchild);
+        preorder(root->rightchild);
+    }
+}
+
+void postorder(treePointer root) {
+    if (root) {
+        postorder(root->leftchild);
+        postorder(root->rightchild);
+        printf("%d ", root->data);
+    }
+}`;
+
+const dllFront = `#include<stdio.h> 
+#include<stdlib.h> 
+struct node 
+{ 
+    struct node *llink; 
+    int info; 
+    struct node *rlink; 
+}; 
+typedef struct node *NODE; 
+NODE first=NULL,cur=NULL;// Empty List 
+NODE createnode(); // function to Create a new temp Node 
+void insertfront(); // function to insert front  
+void deletefront();// function to delete front 
+void display(); 
+ 
+int main() 
+{ 
+    int ch; 
+    while(1) 
+    { 
+        printf("\n1.Insert Front\n2.Delete Front\n3.Exit\n Enter Your 
+Choice:"); 
+        scanf("%d",&ch); 
+        switch (ch) 
+        { 
+        case 1:insertfront(); 
+            /* code */ 
+            break; 
+        case 2:deletefront();break; 
+        case 3:exit(0); 
+        } 
+    } 
+   return 0; 
+} 
+NODE createnode() 
+{ 
+    NODE temp; // Create a temp node 
+    temp=malloc(sizeof(struct node)); //Allocate memory 
+    printf("Enter Info: ");  
+    scanf("%d",&temp->info);// Read Info 
+    temp->llink=NULL; //Set left link NULL 
+    temp->rlink=NULL;// Set Right Link NULL 
+    return temp; 
+} 
+void insertfront() 
+{ 
+   NODE temp=createnode(); 
+   if(first==NULL) // If the list is empty  
+   { 
+    first=temp; // new temp node is the first node 
+   } 
+   else{ 
+    temp->rlink=first; // else right link to first node 
+    first->llink=temp; // connect first left link to temp 
+    first=temp; // make temp as first node 
+   } 
+   display(); 
+} 
+void deletefront() 
+{ 
+    first=first->rlink;// Make second node as first  
+    first->llink=NULL; // Set first node left link to NULL 
+    /*               OR              */ 
+    // cur=first->rlink; // Copy second node into cur 
+    // cur->llink=NULL;  // make cur is first node  
+    // free(first);  free the first node 
+    // first=cur;  //make cur is first node  
+    display(); 
+} 
+void display() 
+{ 
+  cur=first; 
+  if(first==NULL) 
+  { 
+    printf("List is Empty!"); 
+    return; 
+  } 
+  printf("LIST: "); 
+  while(cur!= NULL) 
+    { 
+        printf("%d->",cur->info); 
+        cur=cur->rlink; 
+    } 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+`;
+
+const dllEnd = `#include<stdio.h> 
+#include<stdlib.h> 
+struct node 
+{ 
+    struct node *llink; 
+    int info; 
+    struct node *rlink; 
+}; 
+typedef struct node *NODE; 
+NODE first=NULL,cur=NULL,prev=NULL;// Empty List 
+NODE createnode(); // function to Create a new temp Node 
+void insertend(); // function to insert front  
+void deleteend();// function to delete front 
+void display(); 
+ 
+int main() 
+{ 
+    int ch; 
+    while(1) 
+    { 
+        printf("\n1.Insert End\n2.Delete End\n3.Exit\n Enter Your 
+Choice:"); 
+        scanf("%d",&ch); 
+        switch (ch) 
+        { 
+        case 1:insertend(); 
+            /* code */ 
+            break; 
+        case 2:deleteend();break; 
+        case 3:exit(0); 
+        } 
+    } 
+   return 0; 
+} 
+NODE createnode() 
+{ 
+    NODE temp; // Create a temp node 
+    temp=malloc(sizeof(struct node)); //Allocate memory 
+    printf("Enter Info: ");  
+    scanf("%d",&temp->info);// Read Info 
+    temp->llink=NULL; //Set left link NULL 
+    temp->rlink=NULL;// Set Right Link NULL 
+    return temp; 
+} 
+void insertend() 
+{ 
+   NODE temp=createnode(); 
+   if(first==NULL) // If the list is empty  
+   { 
+    first=temp; // new temp node is the first node 
+   } 
+   else{ 
+    cur=first; 
+    while(cur->rlink!=NULL) 
+    { 
+        cur=cur->rlink; 
+    } 
+    cur->rlink=temp; 
+    temp->llink=cur; 
+   } 
+   display(); 
+} 
+void deleteend() 
+{ 
+    cur=first; 
+    if(first==NULL)// Check for list is empty 
+    { 
+        printf("List is empty"); 
+        return; 
+    } 
+    // if(first->rlink==NULL) // Check for only one node in a list  
+    // { 
+    //     free(first); // Free first node 
+    //     first=NULL; 
+    //     return; 
+    // } 
+     
+    while(cur->rlink!=NULL) // Go to last node 
+    { 
+        prev=cur;  // Store second last in prev 
+        cur=cur->rlink; // Move to next node 
+    } 
+    prev->rlink=NULL; // Remove the link to last node 
+    free(cur);// remove the last node permanently 
+    display(); // Display the status of lIst  
+} 
+void display() 
+{ 
+  cur=first; 
+  if(first==NULL) 
+  { 
+    printf("List is Empty!"); 
+    return; 
+  } 
+  printf("LIST: "); 
+  while(cur!= NULL) 
+    { 
+        printf("%d->",cur->info); 
+        cur=cur->rlink; 
+    } 
+} 
+ 
+`;
+
+const sllEnd = `#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+    int info;
+    struct node *link;
+};
+typedef struct node *NODE;
+NODE first=NULL;
+NODE cur=NULL, prev=NULL;
+
+NODE createnode();
+void insertend();
+void deleteend();
+void display();
+
+int main() {
+    int ch;
+    while(1) {
+        printf("\n1.Insert End \n2.Delete End\n3.Exit\n Enter Your Choice: ");
+        scanf("%d",&ch);
+        switch (ch) {
+        case 1: insertend(); break;
+        case 2: deleteend(); break;
+        case 3: exit(0);
+        }
+    }
+    return 0;
+}
+
+NODE createnode() {
+    NODE temp;
+    temp = malloc(sizeof(struct node));
+    printf("Enter info:");
+    scanf("%d", &temp->info);
+    temp->link = NULL;
+    return temp;
+}
+
+void insertend() {
+    NODE temp = createnode();
+    if(first == NULL) {
+        first = temp;
+    } else {
+        cur = first;
+        while(cur->link != NULL) {
+            cur = cur->link;
+        }
+        cur->link = temp;
+    }
+    display();
+}
+
+void deleteend() {
+    cur = first;
+    if(first == NULL) {
+        printf("List is Empty!");
+        return;
+    }
+    if(first->link == NULL) {
+        free(first);
+        first = NULL;
+        return;
+    }
+    while(cur->link != NULL) {
+        prev = cur;
+        cur = cur->link;
+    }
+    prev->link = NULL;
+    free(cur);
+    display();
+}
+
+void display() {
+    NODE cur = first;
+    printf("\n List:");
+    while (cur != NULL) {
+        printf("%d->", cur->info);
+        cur = cur->link;
+    }
+}`;
+
+const sllFront = `#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *link;
+};
+typedef struct node *NODE;
+NODE first = NULL, cur = NULL;
+
+NODE createnode();
+void insertfront();
+void deletefront();
+void display();
+
+int main() {
+    int ch;
+    while (1) {
+        printf("\n1.Insert Front\n 2.Delete Front \n 3.Exit \n Enter your choice: ");
+        scanf("%d", &ch);
+        switch (ch) {
+        case 1:
+            insertfront();
+            break;
+        case 2:
+            deletefront();
+            break;
+        case 3:
+            exit(0);
+        }
+    }
+    return 0;
+}
+
+NODE createnode() {
+    NODE temp;
+    temp = malloc(sizeof(struct node));
+    printf("Enter info:");
+    scanf("%d", &temp->info);
+    temp->link = NULL;
+    return temp;
+}
+
+void insertfront() {
+    NODE temp = createnode();
+    if (first == NULL) {
+        first = temp;
+    } else {
+        temp->link = first;
+        first = temp;
+    }
+    display();
+}
+
+void deletefront() {
+    if (first == NULL) {
+        printf("\n List is Empty\n");
+        return;
+    }
+    first = first->link;
+    display();
+}
+
+void display() {
+    cur = first;
+    printf("\n List: ");
+    while (cur != NULL) {
+        printf("%d->", cur->info);
+        cur = cur->link;
+    }
+}`;
+</script>
+
+</body>
+</html>
